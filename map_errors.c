@@ -6,11 +6,46 @@
 /*   By: esamad-j <esamad-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 12:07:28 by aoteo-be          #+#    #+#             */
-/*   Updated: 2023/11/14 01:43:20 by esamad-j         ###   ########.fr       */
+/*   Updated: 2023/11/17 05:01:23 by esamad-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
+
+void	map_errors(int i, char *parameter, t_map *map_data)
+{
+	printf("%s", ERROR);
+	if (i == 0)
+		printf("Memory error.");
+	else if (i == 1)
+		printf("parameter %s duplicated.", parameter);
+	else if (i == 2)
+		printf("parameter %s not defined.", parameter);
+	else if (i == 3)
+		printf("Initial row should have optional leading spaces and 1's.");
+	else if (i == 4)
+		printf("Unknown map symbol.");
+	else if (i == 5)
+		printf("Map should be surrounded by walls.");
+	else if (i == 6)
+		printf("Mutiple players found");
+	else if (i == 7)
+		printf("No player position found");
+	else if (i == 8)
+		printf("It's missing a wall");
+	printf("\n");
+	if (map_data->no != NULL)
+		free(map_data->no);
+	if (map_data->so != NULL)
+		free(map_data->so);
+	if (map_data->ea != NULL)
+		free(map_data->ea);
+	if (map_data->we != NULL)
+		free(map_data->we);
+	if (map_data != NULL)
+		free(map_data);
+	exit (EXIT_FAILURE);
+}
 
 int	check_cub(char *argv)
 {
@@ -35,9 +70,9 @@ void	check_input(int parameters_number, char **argv)
 	{
 		printf("%s%s\n", ERROR, "Usage: cub3D map file name, ");
 		if (parameters_number < 2)
-			printf("no map file provided.\n");
+			printf("No map file provided.\n");
 		else
-			printf("only one parameter allowed.\n");
+			printf("Only one parameter allowed.\n");
 		exit (EXIT_FAILURE);
 	}
 	else
@@ -46,20 +81,39 @@ void	check_input(int parameters_number, char **argv)
 			printf("%s%s\n", ERROR, "Map must be in .cub\n");
 			exit(EXIT_FAILURE);
 		}
-		
-		
-		
-		
 }
 
-/* void	check_map_param(char *line, char **param, char *param_name)
+void check_empty_line(char *line)
+{
+    static int count = 0;
+    static int init_map = 0;
+    static int finish_map = 0;
+    int line_len;
+
+    line_len = ft_strlen(line);
+    if(count == 6 && line_len > 1 && !init_map)
+        init_map = 1;
+    if(count < 6 && line_len > 1)
+        count++;
+    if (init_map && ft_strlen(line) == 1 && !finish_map)
+		finish_map++;
+    if(line_len > 1 && finish_map)
+    {
+        printf("%s%s\n", ERROR, "Empty line in map.\n");
+		exit(EXIT_FAILURE);	
+    }
+
+    
+}
+
+void	check_map_param(char *line, char **param, char *param_name, int i)
 {
 	if (*param != NULL)
 		map_errors(1, param_name, NULL);
-	*param = malloc(sizeof(char) * (ft_strlen(line) + 1) - 3);
+	*param = malloc(sizeof(char) * (ft_strlen(line) + 1) - i);
 	if (*param == NULL)
-		map_errors(4, param_name, NULL);
-	ft_memcpy(*param, line + 3, ft_strlen(line) - 3);
+		map_errors(0, "", NULL);
+	ft_memcpy(*param, line + i, ft_strlen(line) - i);
 }
 
 void	check_no_parameter(t_map *map)
@@ -90,32 +144,3 @@ void	file_errors(ssize_t index, char *map_data)
 		free(map_data);
 	exit (EXIT_FAILURE);
 }
-
-void	map_errors(int i, char *parameter, t_map *map_data)
-{
-	printf("%s", ERROR);
-	if (i == 0)
-		printf("Memory error.");
-	else if (i == 1)
-		printf("parameter %s duplicated.", parameter);
-	else if (i == 2)
-		printf("parameter %s not defined.", parameter);
-	else if (i == 3)
-		printf("Initial row should have optional leading spaces and 1's.");
-	else if (i == 4)
-		printf("Unknown map symbol.");
-	else if (i == 5)
-		printf("Map should be surrounded by walls.");
-	printf("\n");
-	if (map_data->no != NULL)
-		free(map_data->no);
-	if (map_data->so != NULL)
-		free(map_data->so);
-	if (map_data->ea != NULL)
-		free(map_data->ea);
-	if (map_data->we != NULL)
-		free(map_data->we);
-	if (map_data != NULL)
-		free(map_data);
-	exit (EXIT_FAILURE);
-} */

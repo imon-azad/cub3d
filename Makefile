@@ -6,7 +6,7 @@
 #    By: esamad-j <esamad-j@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/14 00:00:24 by esamad-j          #+#    #+#              #
-#    Updated: 2023/11/14 01:51:49 by esamad-j         ###   ########.fr        #
+#    Updated: 2023/11/17 04:39:41 by esamad-j         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CC					=	gcc
 
 LIBFT		= ./libft/libft.a
 
-SRCS		= main.c map_errors.c map_read.c
+SRCS		= main.c map_errors.c map_read.c check_wall.c
 
 OBJS		= $(SRCS:%.c=%.o)
 

@@ -6,7 +6,7 @@
 /*   By: esamad-j <esamad-j@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 16:57:04 by esamad-j          #+#    #+#             */
-/*   Updated: 2023/11/14 01:46:45 by esamad-j         ###   ########.fr       */
+/*   Updated: 2023/11/16 04:25:11 by esamad-j         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,21 +73,3 @@ size_t	ft_strlen(const char *s)
 	return (cont);
 }
 
-void	*ft_calloc(size_t count, size_t size)
-{
-	char	*new;
-	int		i;
-
-	if ((count >= SIZE_MAX && size > 1) || (size >= SIZE_MAX && count > 1))
-		return (0);
-	i = 0;
-	new = (char *)malloc(count * size);
-	if (!new)
-		return (NULL);
-	while (i < (int)(count * size))
-	{
-		new[i] = 0;
-		i++;
-	}
-	return (new);
-}
